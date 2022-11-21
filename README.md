@@ -19,7 +19,7 @@ This will create a virtualenv called `leonv`, and after it concludes you should 
 
 ## TODO
 
-- [ ] turn it into a class
+- [x] turn it into a class
 - [ ] test test test
 - [ ] add plugins incrementally
 
