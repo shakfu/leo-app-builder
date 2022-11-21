@@ -17,6 +17,10 @@ PLUGINS = [
     "quicksearch.py",
     "todo.py",
     "viewrendered.py",
+    # extras
+    # "free_layout.py",
+    # 'qt_gui.py',
+    # 'qt_events.py'
 ]
 
 
@@ -32,6 +36,7 @@ if __name__ == '__main__':
 INCLUDES = [
     "PyQt5",
     "PyQtWebEngine",
+    "flexx",
 ]
 
 EXCLUDES = [
@@ -39,7 +44,7 @@ EXCLUDES = [
     "black",
     "build",
     "docutils",
-    "flexx",
+    # "flexx",
     "jupyter",
     "meta",
     "nbformat",
@@ -124,9 +129,9 @@ class LeoAppBuilder:
             ]
         )
         self.create_launcher(f"{self.venv}/{self.app}")
-        self.remove_extra_plugins(
-            f"{self.venv}/lib/python{self.py_ver}/site-packages/leo/plugins"
-        )
+        # self.remove_extra_plugins(
+        #     f"{self.venv}/lib/python{self.py_ver}/site-packages/leo/plugins"
+        # )
         self.create_setup(f"{self.venv}/setup.py")
         self.vcmds(
             [
@@ -135,7 +140,6 @@ class LeoAppBuilder:
                 f"python setup.py py2app --iconfile lib/python{self.py_ver}/site-packages/leo/Icons/LeoApp.ico",
             ]
         )
-        print("DONE")
 
 
 if __name__ == "__main__":
