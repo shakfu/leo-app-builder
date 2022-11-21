@@ -20,8 +20,9 @@ This will create a virtualenv called `leonv`, and after it concludes you should 
 ## TODO
 
 - [x] turn it into a class
+- [x] remove unittests before building
+- [x] add plugins incrementally
 - [ ] test test test
-- [ ] add plugins incrementally
 
 
 
