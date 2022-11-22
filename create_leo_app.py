@@ -197,7 +197,7 @@ PLUGINS_EXCLUDED = [
 ]
 
 
-LEOAPP_PY = """
+LAUNCHER_PY = """
 import re
 import sys
 from leo.core.runLeo import run
@@ -206,26 +206,29 @@ if __name__ == '__main__':
     sys.exit(run())
 """
 
-INCLUDES = [
-    "PyQt5",
-    "PyQtWebEngine",
-    "flexx",
-    "docutils",
+PACKAGES = [ # specify which packages to include
+    "sphinx",
+    # "pygments",
+    # "jedi",
 ]
 
-EXCLUDES = [
+
+INCLUDES = [ # specify which modules to include (packages ignored)
+    "PyQt5",
     "asttokens",
-    "black",
-    "build",
-    # "docutils",
-    # "flexx",
-    "jupyter",
+    "docutils",
+    "flexx",
     "meta",
-    "nbformat",
-    "pyenchant",
     "pyflakes",
     "pylint",
-    "pyshortcuts",
+]
+
+EXCLUDES = [ # specify which modules to exclude (packages ignored)
+    "black", # causes a bug during installation
+    "build",
+    "jupyter",
+    "nbformat",
+    "pyshortcuts", # Modules with syntax / indentation errors: pyshortcuts.base
     "sphinx", # including this causes ImportError: No module named 'sphinxcontrib'
     "tk",
 ]
@@ -233,7 +236,6 @@ EXCLUDES = [
 SETUP_REQUIRES = [
     "py2app",
     "leo",
-    "PyQt5"
 ]
 
 SETUP_EXTRA = [
@@ -266,6 +268,7 @@ class LeoAppBuilder:
         self.app = app
         self.venv = options.get("venv", "leoenv")
         self.plugins = options.get("plugins", PLUGINS)
+        self.packages = options.get("packages", PACKAGES)
         self.includes = options.get("includes", INCLUDES)
         self.excludes = options.get("excludes", EXCLUDES)
         self.setup_requires = options.get("setup_requires", SETUP_REQUIRES)
@@ -298,7 +301,7 @@ class LeoAppBuilder:
 
     def create_launcher(self, path):
         with open(path, "w") as f:
-            f.write(LEOAPP_PY)
+            f.write(LAUNCHER_PY)
 
     def create_setup(self, path):
         setup_py = SETUP_PY.format(
@@ -307,6 +310,7 @@ class LeoAppBuilder:
             options=dict(
                 includes=self.includes,
                 excludes=self.excludes,
+                packages=self.packages,
             ),
             setup_requires=self.setup_requires,
         )
