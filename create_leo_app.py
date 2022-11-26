@@ -72,7 +72,6 @@ PLUGINS_EXCLUDED = [
     "examples",
     "expfolder.py",
     "footprints.ini",
-    "free_layout.py",
     "freewin.py",
     "ftp.py",
     "geotag.py",
@@ -137,7 +136,6 @@ PLUGINS_EXCLUDED = [
     "picture_viewer.py",
     "pluginsManager.txt",
     "pluginsNotes.txt",
-    "plugins_menu.py",
     "projectwizard.py",
     "pygeotag",
     "pyplot_backend.py",
@@ -221,6 +219,7 @@ INCLUDES = [ # specify which modules to include (packages ignored)
     "meta",
     "pyflakes",
     "pylint",
+    "pyshortcuts",
 ]
 
 EXCLUDES = [ # specify which modules to exclude (packages ignored)
@@ -228,7 +227,7 @@ EXCLUDES = [ # specify which modules to exclude (packages ignored)
     "build",
     "jupyter",
     "nbformat",
-    "pyshortcuts", # Modules with syntax / indentation errors: pyshortcuts.base
+    # "pyshortcuts", # Modules with syntax / indentation errors: pyshortcuts.base
     "sphinx", # including this causes ImportError: No module named 'sphinxcontrib'
     "tk",
 ]
@@ -261,6 +260,11 @@ setup(
 import os
 import shutil
 import sysconfig
+
+
+def checks():
+    for p in PLUGINS:
+        assert not p in PLUGINS_EXCLUDED, f"error: {p} is in PLUGINS_EXCLUDED"
 
 
 class LeoAppBuilder:
@@ -329,9 +333,9 @@ class LeoAppBuilder:
         self.remove_extra_plugins(
             f"{self.venv}/lib/python{self.py_ver}/site-packages/leo/plugins"
         )
-        self.remove_tests(
-            f"{self.venv}/lib/python{self.py_ver}/site-packages/leo/unittests"
-        )
+        # self.remove_tests(
+        #     f"{self.venv}/lib/python{self.py_ver}/site-packages/leo/unittests"
+        # )
         self.create_setup(f"{self.venv}/setup.py")
         self.vcmds(
             [
@@ -343,5 +347,6 @@ class LeoAppBuilder:
 
 
 if __name__ == "__main__":
+    # checks()
     builder = LeoAppBuilder(app="LeoApp.py")
     builder.build()
